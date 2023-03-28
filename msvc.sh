@@ -5,6 +5,7 @@ FILE=async_service.cpp
 
 if test -f $FILE; then
   echo "$FILE exists."
+  exit 1
 fi
 
 echo "class Service {" > $FILE
