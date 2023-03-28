@@ -1,33 +1,46 @@
 #!/bin/bash
 
-FILE=class500.cpp
+COUNTER=300
+FILE=async_service.cpp
 
 if test -f $FILE; then
   echo "$FILE exists."
 fi
 
-echo "// class list" > $FILE
-for i in {1..500}
+echo "class Service {" > $FILE
+echo " public:" >> $FILE
+for i in $(eval echo "{1..$COUNTER}")
+do
+  echo "  virtual void Method$i() = 0;" >> $FILE
+done
+echo "};" >> $FILE
+echo >> $FILE
+
+echo "// class list" >> $FILE
+for i in $(eval echo "{1..$COUNTER}")
 do
   echo "template <class Base>" >> $FILE
-  echo "class A$i : public Base {};" >> $FILE
+  echo "class Async_Method$i : public Base {" >> $FILE
+  echo " public:" >> $FILE
+  echo "  void Method$i() override {}" >> $FILE
+  echo "};" >> $FILE
   echo >> $FILE
 done
 
-echo "class Core {};" >> $FILE
-echo >> $FILE
-
 echo -n "typedef " >> $FILE
-for i in {1..500}
+for i in $(eval echo "{1..$COUNTER}")
 do
-  echo -n "A$i<" >> $FILE
+  echo -n "Async_Method$i<" >> $FILE
 done
 
-echo -n "Core" >> $FILE
+echo -n "Service" >> $FILE
 
-for i in {1..500}
+for i in $(eval echo "{1..$COUNTER}")
 do
   echo -n " >" >> $FILE
 done
 
-echo "A1000;" >> $FILE
+echo "AsyncService;" >> $FILE
+echo >> $FILE
+
+echo "AsyncService g_async_service;" >> $FILE
