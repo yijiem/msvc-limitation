@@ -14,3 +14,5 @@ async_service.cpp(1798): note: see reference to function 'Async_Method250<Async_
 ```
 
 No issue if set `COUNTER` in [generate.sh](generate.sh) to a smaller value (e.g. 200). No issue when compiling with clang (version 14.0.6) on Linux.
+
+Seems like when the nested template level (`Async_Method1<Async_Method2<Async_Method3<...>>>`) is >= 250, MSVC will generate the above error.
